@@ -12,7 +12,7 @@ I used the MVC pattern to keep things organized.
 ## Project Structure
 
 ```plaintext
-project-root/
+defense_point_tma/
 ├── compose.yml
 ├── env/
 │   ├── global.env
@@ -84,7 +84,7 @@ You would need to have docker and docker compose installed on your system:
 
 ```bash
 git clone https://github.com/wicfasho/defense_point_tma
-cd project-root
+cd defense_point_tma
 ```
 
 ### 2. Start the Docker Containers
