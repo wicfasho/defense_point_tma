@@ -18,7 +18,7 @@ component {
 	this.sessionType = "application"; 
 
 	// untouched session lifespan
-	this.sessionTimeout = createTimeSpan( 0, 0, 30, 0 ); 
+	this.sessionTimeout = createTimeSpan( 0, 0, 30, 0 );
 	this.sessionStorage = "defensePointTMA";
 	
 	// client scope enabled or not
@@ -58,7 +58,8 @@ component {
     // MAPPINGS
     this.webrootDir = getDirectoryFromPath( getCurrentTemplatePath() );
     this.mappings = {
-        "/com/defensepoint/tma": this.webrootDir & "cfcs"
+        "/com/defensepoint/tma": this.webrootDir & "cfcs",
+        "/model": this.webrootDir & "model"
     }
 
     //DATASOURCE
@@ -80,7 +81,6 @@ component {
         , storage:true // default: false
         , alwaysSetTimeout:true // default: false
         , validate:true // default: false
-        // , custom: {useUnicode:true,characterEncoding:'UTF-8'} // a struct that contains type specific settings
     };
 
     //Set Datasource
@@ -103,10 +103,10 @@ component {
         application.dateInitialized = now();
 
         application.DEVELOPMENT_MODE = system_env.DEVELOPMENT_MODE;
-        
+
+        createDatabaseSchema();
     }
 
-    // On Request
     public void function onRequest(targetPage){
         cfheader( name = "Access-Control-Allow-Origin", value = "" )
 
@@ -129,14 +129,52 @@ component {
         }
     }
 
-    // On RequestStart
-    public void function onRequestStart(){
+    function onRequestStart(targetPage) {
+        if(url.keyExists('init')){
+            applicationStop()
+            location("/",false)
+        }
+
+        if (right(arguments.targetPage, 4) != ".cfc") {
+            if (!listFindNoCase("login.cfm,logout.cfm", listLast(arguments.targetPage, "/")) && (!session.keyExists('authenticated') || !session.authenticated)) {
+                location("/view/auth/login.cfm", false);
+                abort();
+            }
+        }
+        return true
     }
 
-    //Init Session
     public void function onSessionStart(){
         session.dateInitialized = now();
+        session.authenticated = false;
         cfcookie (name="timeUserLoggedIn" value="" expires="now" preserveCase = "true");
         return;
+    }
+
+    private void function createDatabaseSchema() {
+        schemaFilePath = expandPath("/mysql/schema.sql");
+        schemaSQL = fileRead(schemaFilePath);
+        
+        sqlStatements = listToArray(schemaSQL, ";");
+
+        for (statement in sqlStatements) {
+            if (trim(statement) neq "") {
+                try {
+                    executeSQL(statement & ";");
+                } catch (any e) {
+                    writeOutput("Error executing SQL statement: " & e.message);
+                }
+            }
+        }
+    }
+
+    private function executeSQL(required string sql) {
+        var queryResult = "";
+        try {
+            queryResult = queryExecute(sql, []);
+        } catch (any e) {
+            writeOutput("Error executing SQL: " & e.message);
+        }
+        return queryResult;
     }
 }

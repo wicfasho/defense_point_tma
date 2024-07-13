@@ -19,6 +19,7 @@ services:
       - ./lucee/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./lucee/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./lucee/web/www:/var/www
+      - ./mysql/schema.sql:/var/www/mysql/schema.sql
       - ./secrets/lucee_server_password.txt:/opt/lucee/server/lucee-server/context/password.txt
     networks: 
       - tma-app
