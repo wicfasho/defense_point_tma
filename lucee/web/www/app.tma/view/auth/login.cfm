@@ -1,11 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="http://localhost:80/">
-    <title>Login Page - Task Management Application</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<cfinclude template="../includes/header.cfm">
+
+<body>
+    <div class="row">
+        <div class="logo p-3">
+            <img src="assets/images/logo.svg">
+        </div>
+        
+        <div class="login-container">
+            <h2>Login</h2>
+
+            <cfscript>
+                if(session.keyExists("authError")) {
+                    writeOutput('<div class="alert bg-danger">' & session.authError & '</div>')
+                    structDelete(session, "authError")
+                }
+            </cfscript>
+
+            <form method="POST" action="/controller/AuthController.cfc?method=login">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="username" class="form-control" name="username" id="username" placeholder="Enter username" value="defensepoint">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="defensepoint">
+                </div>
+                <button type="submit" class="btn btn-danger btn-block">Login</button>
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </form>
+            <div class="signup-link">
+                Don't have an account? <a href="#">Sign up</a>
+            </div>
+        </div>
+    </div>
+
     <style>
         body {
             display: flex;
@@ -77,43 +105,7 @@
             text-decoration: underline;
         }
     </style>
-</head>
-<body>
-    <div class="row">
-        <div class="logo p-3">
-            <img src="assets/images/logo.svg">
-        </div>
-        
-        <div class="login-container">
-            <h2>Login</h2>
 
-            <cfscript>
-                if(session.keyExists("authError")) {
-                    writeOutput('<div class="alert bg-danger">' & session.authError & '</div>')
-                    structDelete(session, "authError")
-                }
-            </cfscript>
-
-            <form method="POST" action="/controller/AuthController.cfc?method=login">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="username" class="form-control" name="username" id="username" placeholder="Enter username" value="defensepoint">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="defensepoint">
-                </div>
-                <button type="submit" class="btn btn-danger btn-block">Login</button>
-                <a href="#" class="forgot-password">Forgot password?</a>
-            </form>
-            <div class="signup-link">
-                Don't have an account? <a href="#">Sign up</a>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <cfinclude template="../includes/footer.cfm">
 </body>
 </html>

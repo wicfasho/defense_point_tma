@@ -118,7 +118,7 @@ component {
         }
 
         try{
-            include arguments.targetPage
+            include arguments.targetPage;
         }
         catch(any e){
             if( application.DEVELOPMENT_MODE ){
