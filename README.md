@@ -1,6 +1,6 @@
 ![Logo](/lucee/web/www/app.tma/assets/images/logo.svg)
 
-# Task Manager Application
+# Task Management Application
 
 This is a Task Management Application built using ColdFusion (Lucee), MySQL, and Docker. It allows users to create, read, update, and delete tasks. It also includes user authentication. The default username and password is `defensepoint`. CF's `hash` inbuilt function was used to hash password. We may need to update how password are hashed and salted in real life applications. Made it simple because of the time constraint.
 I used the MVC pattern to keep things organized.

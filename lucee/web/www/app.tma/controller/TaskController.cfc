@@ -10,7 +10,7 @@ component {
         for (task in local.tasks) {
             arrayAppend(local.result.data, {
                 "id": task.id,
-                "task_name": task.task_name,
+                "task_name": '<a href="/view/tasks/details.cfm?id=#task.id#">' & task.task_name & '</a>',
                 "description": task.description,
                 "status": '<span class="badge badge-#task.status.toLowerCase() == 'pending' ? 'danger' : task.status.toLowerCase() == 'in progress' ? 'primary' : 'success'#">#task.status#</span>',
                 "action": '<a href="/view/tasks/list.cfm?id=#task.id#">Edit</a> | <a class="delete_task" id="#task.id#" href="##">Delete</a>'

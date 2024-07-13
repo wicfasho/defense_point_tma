@@ -4,5 +4,5 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 <cfif listLast(arguments.targetPage, "/") != "login.cfm">
-    <div class="mt-3" align="center"><a href="/controller/AuthController.cfc?method=logout">Logout</a></div>
+    <div class="mt-3 mb-3" align="center"><a href="/controller/AuthController.cfc?method=logout">Logout</a></div>
 </cfif>
