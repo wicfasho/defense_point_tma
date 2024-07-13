@@ -1,3 +1,4 @@
+![Logo](/lucee/web/www/app.tma/assets/images/logo.svg)
 
 # Task Manager Application
 
